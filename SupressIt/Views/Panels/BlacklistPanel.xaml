@@ -1,0 +1,91 @@
+<UserControl x:Class="SupressIt.Views.Panels.BlacklistPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:SupressIt.Models">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Border Margin="12,8,12,4" CornerRadius="14" Padding="14,10" Background="#12FFF0F0">
+                <TextBlock FontFamily="Segoe UI" FontSize="12"
+                           Foreground="{DynamicResource TextSecond}" TextWrapping="Wrap">
+                    🚫 Blocked apps are automatically killed every 30 seconds if they dare come back.
+                    Click REMOVE to give them another chance!
+                </TextBlock>
+            </Border>
+            <ItemsControl ItemsSource="{Binding Blacklist}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:BlacklistEntry}">
+                        <Border Style="{DynamicResource CardStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="42"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Width="34" Height="34" CornerRadius="17"
+                                        Background="#20FF4060"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="🚫" FontSize="17"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+
+                                <StackPanel Grid.Column="1" Margin="10,0,12,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" FontFamily="Segoe UI"
+                                               FontWeight="SemiBold" FontSize="13"
+                                               Foreground="{DynamicResource TextPrimary}"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
+                                        <TextBlock Text="{Binding TypeLabel}"
+                                                   Foreground="{DynamicResource TextSoft}"
+                                                   FontSize="10" FontFamily="Segoe UI" Margin="0,0,8,0"/>
+                                        <TextBlock Text="{Binding ActiveLabel}" FontSize="10"
+                                                   FontFamily="Segoe UI" FontWeight="SemiBold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="#C08040"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                            <Setter Property="Foreground" Value="#C03050"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding AddedAt, StringFormat=' • {0}'}"
+                                                   Foreground="{DynamicResource TextSoft}" FontSize="10"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <Button Grid.Column="2" Content="{Binding ToggleActiveLabel}"
+                                        Tag="{Binding Id}" Style="{DynamicResource SoftBtnStyle}"
+                                        Click="ToggleActive_Click"
+                                        Margin="0,0,8,0" VerticalAlignment="Center"/>
+
+                                <Button Grid.Column="3" Tag="{Binding Id}"
+                                        Click="Remove_Click" VerticalAlignment="Center"
+                                        Cursor="Hand" BorderThickness="0" Background="Transparent">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="B" Background="#20FF4060"
+                                                    CornerRadius="12" Padding="10,6">
+                                                <TextBlock Text="🗑️ Remove" FontFamily="Segoe UI"
+                                                           FontSize="11" FontWeight="SemiBold"
+                                                           Foreground="#C03050"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="B" Property="Background" Value="#35FF4060"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
