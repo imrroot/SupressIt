@@ -359,5 +359,12 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
