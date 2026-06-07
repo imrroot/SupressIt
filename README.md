@@ -1,4 +1,4 @@
-![Demo](image2.webm)
+![Demo](demo.gif)
 
 ## Screenshot
 
