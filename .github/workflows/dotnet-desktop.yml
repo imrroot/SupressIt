@@ -1,25 +1,40 @@
-name: Build Supress It
+name: Build and Release
 
 on:
-  push:
-    branches: [main]
+push:
+branches:
+- main
+
+permissions:
+contents: write
 
 jobs:
-  build:
-    runs-on: windows-latest
+release:
+runs-on: windows-latest
 
-    steps:
-      - uses: actions/checkout@v4
+```
+steps:
+  - name: Checkout
+    uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+  - name: Setup .NET
+    uses: actions/setup-dotnet@v4
+    with:
+      dotnet-version: 8.0.x
 
-      - run: dotnet restore SupressIt.slnx
+  - name: Restore
+    run: dotnet restore SupressIt.slnx
 
-      - run: dotnet publish SupressIt/SupressIt.csproj -c Release -o publish
+  - name: Publish
+    run: dotnet publish SupressIt/SupressIt.csproj -c Release -o publish
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: SupressIt
-          path: publish
+  - name: Create ZIP
+    run: Compress-Archive -Path publish\* -DestinationPath SupressIt.zip
+
+  - name: Create Release
+    uses: softprops/action-gh-release@v2
+    with:
+      tag_name: latest
+      name: Latest Build
+      files: SupressIt.zip
+```
