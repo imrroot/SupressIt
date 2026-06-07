@@ -1,3 +1,10 @@
+![Demo](image2.webm)
+
+## Screenshot
+
+![Screenshot](image.png)
+
+
 # SupressIt
 
 SupressIt is a Windows WPF utility for monitoring running apps, services,
